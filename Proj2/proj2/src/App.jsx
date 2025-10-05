@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import "./App.css";
 
 function App() {
@@ -6,8 +6,22 @@ function App() {
   const [isNumberAllowed, setNumber] = useState(false);
   const [isSymbolsAllowed, setSymbol] = useState(false);
   const [password, setPassword] = useState("");
+  const currPass = useRef(null);
 
-  // Password generator function
+  useEffect(() => {
+    let pass = "";
+    let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+
+    if (isNumberAllowed) str += "0123456789";
+    if (isSymbolsAllowed) str += "!@#$%^&*(){}[]~'";
+
+    for (let i = 0; i < length; i++) {
+      let charIndex = Math.floor(Math.random() * str.length);
+      pass += str.charAt(charIndex);
+    }
+
+    setPassword(pass);
+  }, [length, isNumberAllowed, isSymbolsAllowed, setPassword]);
   const generatePassword = useCallback(() => {
     let pass = "";
     let str = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
@@ -23,11 +37,12 @@ function App() {
     setPassword(pass);
   }, [isNumberAllowed, isSymbolsAllowed, length]);
 
-  // Copy password function
   const copyToClipboard = useCallback(() => {
+    if (currPass.current) {
+      currPass.current.select();
+    }
     if (password) {
       navigator.clipboard.writeText(password);
-      alert("Password copied to clipboard!");
     }
   }, [password]);
 
@@ -35,7 +50,6 @@ function App() {
     <div className="w-5xl max-w-md mx-auto shadow-md rounded-lg px-4 py-4 my-8 text-orange-500 bg-gray-800">
       <h2 className="text-amber-50 text-2xl mb-3">Password Generator</h2>
 
-      {/* Password Display */}
       <div className="shadow rounded-lg overflow-hidden mb-4 w-full">
         <input
           type="text"
@@ -43,17 +57,18 @@ function App() {
           className="outline-none w-full py-1 px-3 text-black bg-amber-50"
           placeholder="Your password will appear here"
           readOnly
+          ref={currPass}
         />
       </div>
 
       {/* Buttons */}
       <div className="flex gap-2 mb-4">
-        <button
+        {/* {<button
           className="outline-none bg-blue-700 text-white px-3 py-1 rounded"
           onClick={generatePassword}
         >
           Generate
-        </button>
+        </button>} */}
         <button
           className="outline-none bg-blue-700 text-white px-3 py-1 rounded"
           onClick={copyToClipboard}
