@@ -44,6 +44,7 @@ function App() {
     if (password) {
       navigator.clipboard.writeText(password);
     }
+
   }, [password]);
 
   return (
@@ -70,7 +71,7 @@ function App() {
           Generate
         </button>} */}
         <button
-          className="outline-none bg-blue-700 text-white px-3 py-1 rounded"
+          className="outline-none bg-blue-700 text-white px-3 py-1 rounded hover:bg-amber-600 hover:text-white"
           onClick={copyToClipboard}
         >
           Copy
