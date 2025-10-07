@@ -4,6 +4,7 @@ import {RouterProvider , createBrowserRouter} from 'react-router-dom'
 import Home from './components/Home/Home.jsx'
 import About from './components/About/About.jsx'
 import ContactUs from './components/ContactUs/ContactUs.jsx'
+import Params from './components/Params/Params.jsx'
 import './index.css'
 import App from './App.jsx'
 
@@ -24,6 +25,10 @@ const router = createBrowserRouter(
         {
           path :'ContactUs',
           element: <ContactUs />
+        },
+        {
+          path:':id',
+          element:<Params />
         }
       ]
     }
