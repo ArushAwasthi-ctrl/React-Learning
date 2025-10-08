@@ -13,7 +13,7 @@ function Card() {
   }
   return (
     <div className="flex bg-gray-700 h-36 w-auto text-white items-center justify-center">
-      <h2>LOGIN KRO BSDK</h2>
+      <h2>LOGIN </h2>
       <input type="text"
         value={username}
         onChange={(e)=>setUsername(e.target.value)}
