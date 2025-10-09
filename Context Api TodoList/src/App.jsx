@@ -38,7 +38,7 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
-  });
+  } , []);
 
   return (
     <TodoContextProvider
