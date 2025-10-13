@@ -1,19 +1,34 @@
-import React, { useState } from "react";
-import { addTodo } from "../features/Todo/TodoSlice";
+import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { addTodo, updateTodo } from "../features/Todo/TodoSlice";
 
-function AddTodo() {
+function AddTodo({ editingTodo, setEditingTodo }) {
   const [todo, setTodo] = useState("");
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (editingTodo) setTodo(editingTodo.todo);
+  }, [editingTodo]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addTodo(todo));
+
+    if (!todo.trim()) return;
+
+    if (editingTodo) {
+      dispatch(updateTodo({ id: editingTodo.id, todo }));
+      setEditingTodo(null);
+    } else {
+      dispatch(addTodo(todo));
+    }
+
     setTodo("");
   };
+
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col md:flex-row items-center gap-2 p-4 bg-black rounded-lg shadow-md w-full max-w-md mx-auto"
+      className="flex flex-col md:flex-row items-center gap-2 p-4 bg-white rounded-lg shadow-md w-full max-w-md mx-auto"
     >
       <input
         type="text"
@@ -24,9 +39,13 @@ function AddTodo() {
       />
       <button
         type="submit"
-        className="px-6 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
+        className={`px-6 py-2 text-white rounded-md transition ${
+          editingTodo
+            ? "bg-green-500 hover:bg-green-600"
+            : "bg-blue-500 hover:bg-blue-600"
+        }`}
       >
-        Add Todo
+        {editingTodo ? "Update Todo" : "Add Todo"}
       </button>
     </form>
   );
