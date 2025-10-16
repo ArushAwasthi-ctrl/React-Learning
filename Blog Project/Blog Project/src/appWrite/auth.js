@@ -24,6 +24,7 @@ export class AuthService {
 
       if (UserAccount) {
         return this.Login({ email, password });
+        // after creating account re direct to login page react router dom
       } else {
         return null;
       }
@@ -36,6 +37,7 @@ export class AuthService {
   async Login({ email, password }) {
     try {
       return await this.account.createEmailPasswordSession(email, password);
+      // handle the promise with then catch and finally
     } catch (error) {
       console.error("Appwrite :: Login :: Error", error);
       throw error;
@@ -45,6 +47,7 @@ export class AuthService {
   async GetCurrentUser() {
     try {
       return await this.account.get();
+      // handle get current user with then catch and finally
     } catch (error) {
       throw error;
     }
@@ -53,6 +56,7 @@ export class AuthService {
   async Logout() {
     try {
       await this.account.deleteSessions();
+      // handle logout with then catch and finally
     } catch (error) {
       throw error;
     }
