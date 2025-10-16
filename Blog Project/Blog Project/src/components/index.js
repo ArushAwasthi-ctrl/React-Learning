@@ -4,4 +4,7 @@ import LogOutBtn from "./Header/LogOutBtn";
 import Container from "./container/Container";
 import Logo from "./Logo";
 import Button from "./Button";
-export { Header, Footer, LogOutBtn, Container, Logo , Button };
+import PostCard from './PostCard'
+import Select from './Select'
+import Input from './Input'
+export { Header, Footer, LogOutBtn, Container, Logo , Button ,PostCard , Select , Input};

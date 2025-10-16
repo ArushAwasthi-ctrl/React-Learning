@@ -68,5 +68,5 @@ export class FileStorage {
   }
 }
 
-const fileStorage = new FileStorage();
-export default fileStorage;
+const imageStorageServices = new FileStorage();
+export default imageStorageServices;

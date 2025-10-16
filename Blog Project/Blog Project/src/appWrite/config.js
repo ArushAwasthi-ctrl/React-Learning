@@ -84,5 +84,5 @@ export class Service {
   }
 }
 
-const service = new Service();
-export default service;
+const Postservices = new Service();
+export default Postservices;
