@@ -14,52 +14,39 @@ export class AuthService {
   }
 
   async CreateAccount({ email, password, name }) {
-    try {
-      const UserAccount = await this.account.create(
-        ID.unique(),
-        email,
-        password,
-        name
-      );
+    const UserAccount = await this.account.create(
+      ID.unique(),
+      email,
+      password,
+      name
+    );
 
-      if (UserAccount) {
-        return this.Login({ email, password });
-        // after creating account re direct to login page react router dom
-      } else {
-        return null;
-      }
-    } catch (error) {
-      console.error("Appwrite :: CreateAccount :: Error", error);
-      throw error;
+    if (UserAccount) {
+      return this.Login({ email, password });
+    } else {
+      return null;
     }
   }
 
   async Login({ email, password }) {
-    try {
-      return await this.account.createEmailPasswordSession(email, password);
-      // handle the promise with then catch and finally
-    } catch (error) {
-      console.error("Appwrite :: Login :: Error", error);
-      throw error;
-    }
+    return await this.account.createEmailPasswordSession(email, password);
   }
 
   async GetCurrentUser() {
     try {
       return await this.account.get();
-      // handle get current user with then catch and finally
     } catch (error) {
-      throw error;
+      // If no session exists, return null instead of throwing (prevents uncaught 401s)
+      if (error && (error.code === 401 || error.status === 401 || error?.response?.status === 401)) {
+        return null;
+      }
+      console.error("Appwrite :: GetCurrentUser :: Error", error);
+      return null;
     }
   }
 
   async Logout() {
-    try {
-      await this.account.deleteSessions();
-      // handle logout with then catch and finally
-    } catch (error) {
-      throw error;
-    }
+    await this.account.deleteSessions();
   }
 }
 

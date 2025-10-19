@@ -3,11 +3,16 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import authservice from "./appWrite/auth";
 import { Login, Logout } from "./features/authSlice";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Header, Footer } from "./components";
 
 function App() {
   const [Loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const { status, userData } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { status } = useSelector((state) => state.auth);
+
   useEffect(() => {
     authservice
       .GetCurrentUser()
@@ -20,29 +25,32 @@ function App() {
       })
       .finally(() => setLoading(false));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!Loading && !status) {
+      const openRoutes = ["/login", "/signup"];
+      if (!openRoutes.includes(location.pathname)) {
+        navigate("/login", { replace: true });
+      }
+    }
+  }, [Loading, status, location.pathname, navigate]);
+
   if (Loading) {
     return (
       <div className="flex items-center justify-center h-screen">
+        <div className="h-6 w-6 border-2 border-slate-300 border-t-slate-700 rounded-full animate-spin mr-3" />
         <h2 className="text-xl font-semibold">Checking session...</h2>
       </div>
     );
   }
 
-  // 2️ If user not logged in
-  if (!status || !userData) {
-    return (
-      <div className="flex flex-col items-center justify-center h-screen">
-        <h1 className="text-3xl font-bold mb-4">Please log in</h1>
-        {/* You can render your Login component here */}
-      </div>
-    );
-  }
-
-  // 3️ If user logged in
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold">Welcome, {userData.name}!</h1>
-      {/* Your protected app UI or routes go here */}
+    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 dark:bg-slate-900 dark:text-slate-100">
+      <Header />
+      <main className="flex-1 py-6">
+        <Outlet />
+      </main>
+      <Footer />
     </div>
   );
 }

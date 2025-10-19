@@ -17,70 +17,50 @@ export class Service {
 
   // ✅ Create a new post
   async CreatePost({ title, slug, content, featuredImage, status, userId }) {
-    try {
-      return await this.databases.documents.create(
-        conf.appwriteDatabaseId,
-        conf.appwriteCollectionId,
-        ID.unique(),
-        { title, slug, content, featuredImage, status, userId }
-      );
-    } catch (error) {
-      throw error;
-    }
+    return await this.databases.documents.create(
+      conf.appwriteDatabaseId,
+      conf.appwriteCollectionId,
+      ID.unique(),
+      { title, slug, content, featuredImage, status, userId }
+    );
   }
 
   // ✅ Update an existing post
   async UpdatePost(slug, { title, content, featuredImage, status }) {
-    try {
-      return await this.databases.documents.update(
-        conf.appwriteDatabaseId,
-        conf.appwriteCollectionId,
-        slug,
-        { title, content, featuredImage, status }
-      );
-    } catch (error) {
-      throw error;
-    }
+    return await this.databases.documents.update(
+      conf.appwriteDatabaseId,
+      conf.appwriteCollectionId,
+      slug,
+      { title, content, featuredImage, status }
+    );
   }
 
   // ✅ Delete a post
   async DeletePost(slug) {
-    try {
-      await this.databases.documents.delete(
-        conf.appwriteDatabaseId,
-        conf.appwriteCollectionId,
-        slug
-      );
-      return true;
-    } catch (error) {
-      throw error;
-    }
+    await this.databases.documents.delete(
+      conf.appwriteDatabaseId,
+      conf.appwriteCollectionId,
+      slug
+    );
+    return true;
   }
 
   // ✅ Get a single post
   async getPost(slug) {
-    try {
-      return await this.databases.documents.get(
-        conf.appwriteDatabaseId,
-        conf.appwriteCollectionId,
-        slug
-      );
-    } catch (error) {
-      throw error;
-    }
+    return await this.databases.documents.get(
+      conf.appwriteDatabaseId,
+      conf.appwriteCollectionId,
+      slug
+    );
   }
 
   // ✅ Get all posts with status "published"
   async getAllPost() {
-    try {
-      return await this.databases.documents.list(
-        conf.appwriteDatabaseId,
-        conf.appwriteCollectionId,
-        [Query.equal("status", "published")]
-      );
-    } catch (error) {
-      throw error;
-    }
+    return await this.databases.documents.list(
+      conf.appwriteDatabaseId,
+      conf.appwriteCollectionId,
+      [Query.equal("status", "published")]
+    );
   }
 }
 

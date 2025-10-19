@@ -2,16 +2,19 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-function Protected({ children, authentication = true }) {
+function AuthLayout({ children, authentication = true }) {
   const status = useSelector((state) => state.auth.status);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (status && authentication !== status) {
+    // If route requires auth and user is not authenticated -> go to login
+    if (authentication && !status) {
       navigate("/login");
-    } else if (!authentication && authentication !== status) {
-      navigate("/login");
+    }
+    // If route must be public and user is authenticated -> go to home
+    if (!authentication && status) {
+      navigate("/");
     }
     setLoading(false);
   }, [status, navigate, authentication]);
@@ -27,4 +30,4 @@ function Protected({ children, authentication = true }) {
   return <>{children}</>;
 }
 
-export default Protected;
+export default AuthLayout;

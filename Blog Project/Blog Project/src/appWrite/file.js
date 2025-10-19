@@ -12,57 +12,36 @@ export class FileStorage {
     this.bucket = new Storage(this.client);
   }
 
- 
   async uploadFile(file) {
-    try {
-      const uploadedFile = await this.bucket.createFile(
-        conf.appwriteBucketId,
-        ID.unique(),
-        file
-      );
-      return uploadedFile;
-    } catch (error) {
-      throw error;
-    }
+    const uploadedFile = await this.bucket.createFile(
+      conf.appwriteBucketId,
+      ID.unique(),
+      file
+    );
+    return uploadedFile;
   }
 
- 
   async deleteFile(fileId) {
-    try {
-      await this.bucket.deleteFile(conf.appwriteBucketId, fileId);
-      return true;
-    } catch (error) {
-      throw error;
-    }
+    await this.bucket.deleteFile(conf.appwriteBucketId, fileId);
+    return true;
   }
 
-  
   async downloadFile(fileId) {
-    try {
-      const downloadedFile = await this.bucket.getFileDownload(
-        conf.appwriteBucketId,
-        fileId
-      );
-      return downloadedFile;
-    } catch (error) {
-      throw error;
-    }
+    const downloadedFile = await this.bucket.getFileDownload(
+      conf.appwriteBucketId,
+      fileId
+    );
+    return downloadedFile;
   }
 
-  
   async previewFile(fileId) {
-    try {
-      const previewedFile = await this.bucket.getFilePreview(
-        conf.appwriteBucketId,
-        fileId
-      );
-      return previewedFile;
-    } catch (error) {
-      throw error;
-    }
+    const previewedFile = await this.bucket.getFilePreview(
+      conf.appwriteBucketId,
+      fileId
+    );
+    return previewedFile;
   }
 
-  
   getFileView(fileId) {
     return this.bucket.getFileView(conf.appwriteBucketId, fileId);
   }
