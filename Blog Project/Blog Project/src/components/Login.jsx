@@ -20,7 +20,7 @@ function Login() {
       if (session) {
         const userData = await authservice.GetCurrentUser();
         if (userData) {
-          dispatch(authLogin(userData));
+          dispatch(authLogin({ userData }));
           navigate('/')
         }
       }

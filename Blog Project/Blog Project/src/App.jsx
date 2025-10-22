@@ -28,7 +28,7 @@ function App() {
 
   useEffect(() => {
     if (!Loading && !status) {
-      const openRoutes = ["/login", "/signup"];
+      const openRoutes = ["/", "/login", "/signup"]; // allow homepage without auth
       if (!openRoutes.includes(location.pathname)) {
         navigate("/login", { replace: true });
       }

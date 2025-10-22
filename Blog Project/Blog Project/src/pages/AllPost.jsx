@@ -1,17 +1,21 @@
 import React, {useState, useEffect} from 'react'
 import { Container, PostCard } from '../components'
 import Postservices from '../appWrite/config'
+import { useSelector } from 'react-redux'
 
 function AllPosts() {
     const [posts, setPosts] = useState([])
+    const status = useSelector((state) => state.auth.status)
 
     useEffect(() => {
-      Postservices.AllPosts([]).then((posts) => {
-        if (posts) {
-          setPosts(posts.rows);
+      Postservices.getAllPost().then((res) => {
+        if (res && Array.isArray(res.documents)) {
+          setPosts(res.documents)
+        } else {
+          setPosts([])
         }
       })
-    }, [])
+    }, [status])
 
   return (
     <div className='w-full py-8'>

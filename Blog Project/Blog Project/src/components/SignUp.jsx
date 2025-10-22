@@ -18,7 +18,7 @@ function SignUp() {
       if (session) {
         const currUser = await authservice.GetCurrentUser();
         if (currUser) {
-          dispatch(Login(currUser));
+          dispatch(Login({ userData: currUser }));
           navigate("/");
         }
       }
